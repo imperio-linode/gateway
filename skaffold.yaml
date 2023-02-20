@@ -1,0 +1,13 @@
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: imperio-gateway
+build:
+  platforms: [ "linux/arm64" ]
+  artifacts:
+    - image: finda/imperio-gateway
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - imperio-gateway.yaml

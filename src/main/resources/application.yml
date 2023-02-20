@@ -1,0 +1,30 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: imperio-gateway
+  main:
+    allow-bean-definition-overriding: true
+  task:
+    execution:
+      pool:
+        allow-core-thread-timeout: true
+        core-size: 8
+  devtools:
+    restart:
+      enabled: false
+
+management:
+  server:
+    port: 8090
+    ssl:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
