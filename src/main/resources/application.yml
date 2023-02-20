@@ -1,7 +1,7 @@
 server:
   port: 8090
 infrastructure:
-  host: "http://localhost"
+  host: http://localhost
   instances-port: 9010
   auth-port: 8080
 spring:

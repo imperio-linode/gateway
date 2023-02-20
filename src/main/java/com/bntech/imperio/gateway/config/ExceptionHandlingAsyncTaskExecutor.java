@@ -8,6 +8,9 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+/**
+ * todo: This should is in common. Need to build it somehow into container.
+ */
 @Slf4j
 public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, InitializingBean, DisposableBean {
     static final String EXCEPTION_MESSAGE = "Caught async exception";

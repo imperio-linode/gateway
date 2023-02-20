@@ -10,6 +10,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+/**
+ * todo: This should is in common. Need to build it somehow into container.
+ */
 @Slf4j
 @Component
 public class ErrorHandler {

@@ -5,6 +5,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Transform Throwable to Mono<Throwable>
+ * todo: This should is in common. Need to build it somehow into container.
  *
  * @throwable Throwable that is to be converted.
  */

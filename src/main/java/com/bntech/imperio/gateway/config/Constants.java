@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Application constants.
+ * todo: This should is in common. Need to build it somehow into container.
  */
 @NoArgsConstructor
 public final class Constants {

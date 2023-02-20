@@ -3,7 +3,6 @@ package com.bntech.imperio.gateway.handler;
 
 import com.bntech.imperio.gateway.feign.FeignClient;
 import com.bntech.imperio.gateway.feign.InstanceApi;
-import feign.Feign;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactivefeign.webclient.WebReactiveFeign;
 import reactor.core.publisher.Mono;
 
 
