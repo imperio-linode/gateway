@@ -1,8 +1,7 @@
 package com.bntech.imperio.gateway.config;
 
 import com.bntech.imperio.gateway.handler.ErrorHandler;
-import com.bntech.imperio.gateway.handler.InstanceHandler;
-import com.bntech.imperio.gateway.handler.UserHandler;
+import com.bntech.imperio.gateway.handler.GatewayHandler;
 import com.bntech.imperio.gateway.router.GatewayRouter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +18,7 @@ public class AppConfig {
     }
 
     @Bean
-    RouterFunction<?> mainRouterFunction(final UserHandler userHandler, final InstanceHandler instanceHandler, final ErrorHandler errorHandler) {
-        return GatewayRouter.doRoute(userHandler, instanceHandler, errorHandler);
+    RouterFunction<?> mainRouterFunction(final GatewayHandler gatewayHandler, final ErrorHandler errorHandler) {
+        return GatewayRouter.doRoute(gatewayHandler, errorHandler);
     }
 }

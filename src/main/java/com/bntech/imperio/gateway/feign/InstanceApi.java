@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static com.bntech.imperio.gateway.config.Constants.api_INSTANCE;
 import static com.bntech.imperio.gateway.config.Constants.api_ID;
 import static com.bntech.imperio.gateway.config.Constants.api_ADD;
 
@@ -15,10 +14,10 @@ import static com.bntech.imperio.gateway.config.Constants.api_ADD;
 @Headers({ "Accept: application/json" })
 public interface InstanceApi {
 
-    @RequestLine("GET " + api_INSTANCE + api_ID)
+    @RequestLine("GET " + api_ID)
     Mono<ServerResponse> getInstanceDetails(@Param("id") String id);
 
-    @RequestLine("POST " + api_INSTANCE + api_ADD)
+    @RequestLine("POST " + api_ADD)
     Mono<ServerResponse> addInstance();
 
 }

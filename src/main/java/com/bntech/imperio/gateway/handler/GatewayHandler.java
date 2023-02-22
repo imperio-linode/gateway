@@ -15,15 +15,14 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
-public class InstanceHandler {
+public class GatewayHandler {
 
-    private final InstanceApi api;
+    private final InstanceApi instances;
 
     @Autowired
-    public InstanceHandler(FeignClient client) {
-        this.api = client.getInstanceClient();
+    public GatewayHandler(FeignClient client) {
+        this.instances = client.getInstanceClient();
     }
-
 
     public Mono<ServerResponse> hello(ServerRequest request) {
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
@@ -31,12 +30,10 @@ public class InstanceHandler {
     }
 
     public Mono<ServerResponse> instanceDetails(ServerRequest request) {
-        log.info("UserHandler path variable: {}", request.pathVariable("id"));
-        return api.getInstanceDetails(request.pathVariable("id"));
+        return instances.getInstanceDetails(request.pathVariable("id"));
     }
 
     public Mono<ServerResponse> addInstance(ServerRequest request) {
-        log.info("UserHandler path variable: {}", request.pathVariable("id"));
-        return api.getInstanceDetails(request.pathVariable("id"));
+        return instances.getInstanceDetails(request.pathVariable("id"));
     }
 }

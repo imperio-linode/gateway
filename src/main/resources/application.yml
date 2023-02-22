@@ -1,9 +1,14 @@
 server:
-  port: 8090
+  port: 80
+
 infrastructure:
-  host: http://localhost
-  instances-port: 9010
-  auth-port: 8080
+  instances:
+    host: instances.imperio
+    service: imperio-instances
+    port: 9001
+  auth:
+    port: 8080
+
 spring:
   application:
     name: imperio-gateway
@@ -20,7 +25,7 @@ spring:
 
 management:
   server:
-    port: 8090
+    port: 80
     ssl:
       enabled: false
   endpoints:

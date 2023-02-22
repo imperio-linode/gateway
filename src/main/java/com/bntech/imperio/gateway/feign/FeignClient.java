@@ -12,7 +12,7 @@ public class FeignClient {
     private final String port;
 
     @Autowired
-    public FeignClient(@Value("${host}") String hostname, @Value("${infrastructure.instances-port}") String port) {
+    public FeignClient(@Value("${infrastructure.instances.host}") String hostname, @Value("${infrastructure.instances.port}") String port) {
         this.hostname = hostname;
         this.port = port;
     }

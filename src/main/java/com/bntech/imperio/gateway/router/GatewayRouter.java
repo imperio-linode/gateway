@@ -2,8 +2,7 @@ package com.bntech.imperio.gateway.router;
 
 
 import com.bntech.imperio.gateway.handler.ErrorHandler;
-import com.bntech.imperio.gateway.handler.InstanceHandler;
-import com.bntech.imperio.gateway.handler.UserHandler;
+import com.bntech.imperio.gateway.handler.GatewayHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -17,15 +16,15 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class GatewayRouter {
 
     @Bean
-    public static RouterFunction<?> doRoute(final UserHandler userHandler, final InstanceHandler instanceHandler, final ErrorHandler errorHandler) {
+    public static RouterFunction<?> doRoute(final GatewayHandler gatewayHandler, final ErrorHandler errorHandler) {
         return
                 nest(path(api_INSTANCE),
                         route(GET(api_ID),
-                                instanceHandler::instanceDetails
+                                gatewayHandler::instanceDetails
                         ).andRoute(POST(api_ADD),
-                                instanceHandler::addInstance)
+                                gatewayHandler::addInstance)
                 ).andOther(StaticRouter.doRoute()
-                ).andOther(route(GET(api_HELLO), instanceHandler::hello)
+                ).andOther(route(GET(api_HELLO), gatewayHandler::hello)
                 );
     }
 }
