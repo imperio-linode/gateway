@@ -29,6 +29,7 @@ public class GatewayHandler {
                 .body(BodyInserters.fromValue("Hello"));
     }
 
+    //todo: Temporary replace with http call due to https://github.com/PlaytikaOSS/feign-reactive/pull/539
     public Mono<ServerResponse> instanceDetails(ServerRequest request) {
         log.info("Received request to perform feign call");
         return instances.getInstanceDetails(request.pathVariable("id"));

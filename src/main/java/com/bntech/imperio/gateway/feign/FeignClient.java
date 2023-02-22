@@ -22,54 +22,21 @@ public class FeignClient {
 
     private final String hostname;
     private final String port;
-    private final String keyStoreLocation;
-    private final String keyStorePassword;
-    private final String keyStoreType;
-    private final String trustStoreLocation;
-    private final String trustStorePassword;
+    private final HttpClient tlsClient;
+
 
     @Autowired
     public FeignClient(@Value("${infrastructure.instances.host}") String hostname,
                        @Value("${infrastructure.instances.port}") String port,
-                       @Value("${infrastructure.tls.key-store}")String keyStoreLocation,
-                       @Value("${infrastructure.tls.key-store-password}")String keyStorePassword,
-                       @Value("${infrastructure.tls.key-store-type}")String keyStoreType,
-                       @Value("${infrastructure.tls.ca}")String trustStoreLocation,
-                       @Value("${infrastructure.tls.ca-password}")String trustStorePassword
+                       HttpClient tlsClient
     ) {
         this.hostname = hostname;
         this.port = port;
-        this.keyStoreLocation = keyStoreLocation;
-        this.keyStorePassword = keyStorePassword;
-        this.keyStoreType = keyStoreType;
-        this.trustStoreLocation = trustStoreLocation;
-        this.trustStorePassword = trustStorePassword;
+        this.tlsClient = tlsClient;
     }
 
     public InstanceApi getInstanceClient() {
-        HttpClient httpClient = HttpClient.create().secure(spec -> {
-            try {
-                KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-                keyStore.load(new FileInputStream(ResourceUtils.getFile(keyStoreLocation)), keyStorePassword.toCharArray());
-                KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
 
-                KeyStore trustStore = KeyStore.getInstance(keyStoreType);
-                trustStore.load(new FileInputStream((ResourceUtils.getFile(trustStoreLocation))), trustStorePassword.toCharArray());
-                TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-                trustManagerFactory.init(trustStore);
-
-                SslContext context = SslContextBuilder.forClient()
-                        .keyManager(keyManagerFactory)
-                        .trustManager(trustManagerFactory)
-                        .build();
-
-                spec.sslContext(context);
-            } catch (Exception e) {
-               log.warn("Unable to set SSL Context", e);
-            }
-        });
-
-        return WebReactiveFeign.<InstanceApi>builder().httpClient(httpClient).target(InstanceApi.class, hostname + ":" + port);
+        return WebReactiveFeign.<InstanceApi>builder().httpClient(tlsClient).target(InstanceApi.class, hostname + ":" + port);
     }
 }
