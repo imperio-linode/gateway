@@ -2,10 +2,16 @@ server:
   port: 80
 
 infrastructure:
+  tls:
+    key-store-type: pkcs12
+    key-store: src/main/resources/keystore.p12
+    key-store-password: imperio
+    ca: src/main/resources/ca.p12
+    ca-password: imperio
   instances:
-    host: instances.imperio
+    host: https://instances.imperio
     service: imperio-instances
-    port: 9001
+    port: 443
   auth:
     port: 8080
 
@@ -28,6 +34,7 @@ management:
     port: 80
     ssl:
       enabled: false
+      trust-certificate: imperio.crt
   endpoints:
     web:
       exposure:

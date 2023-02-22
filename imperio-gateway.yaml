@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: Always
           name: imperio-gateway
           ports:
-            - containerPort: 8090
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -30,8 +30,8 @@ metadata:
   name: imperio-gateway
 spec:
   ports:
-    - port: 8090
+    - port: 8000
       name: http
+      targetPort: 80
   selector:
     app: imperio-gateway
----

@@ -30,6 +30,7 @@ public class GatewayHandler {
     }
 
     public Mono<ServerResponse> instanceDetails(ServerRequest request) {
+        log.info("Received request to perform feign call");
         return instances.getInstanceDetails(request.pathVariable("id"));
     }
 
