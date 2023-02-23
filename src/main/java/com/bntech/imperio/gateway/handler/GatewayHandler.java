@@ -2,6 +2,7 @@ package com.bntech.imperio.gateway.handler;
 
 
 import com.bntech.imperio.gateway.feign.FeignClient;
+import com.bntech.imperio.gateway.feign.FeignFallbackApi;
 import com.bntech.imperio.gateway.feign.InstanceApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import reactor.core.publisher.Mono;
 public class GatewayHandler {
 
     private final InstanceApi instances;
+    private final FeignFallbackApi temporaryApi;
 
     @Autowired
-    public GatewayHandler(FeignClient client) {
+    public GatewayHandler(FeignClient client, FeignFallbackApi api) {
         this.instances = client.getInstanceClient();
+        this.temporaryApi = api;
     }
 
     public Mono<ServerResponse> hello(ServerRequest request) {
@@ -29,10 +32,12 @@ public class GatewayHandler {
                 .body(BodyInserters.fromValue("Hello"));
     }
 
-    //todo: Temporary replace with http call due to https://github.com/PlaytikaOSS/feign-reactive/pull/539
+    //todo: Temporary replaced with http call due to https://github.com/PlaytikaOSS/feign-reactive/pull/539. Revert when done.
     public Mono<ServerResponse> instanceDetails(ServerRequest request) {
         log.info("Received request to perform feign call");
-        return instances.getInstanceDetails(request.pathVariable("id"));
+        return temporaryApi.getInstanceDetails(request.pathVariable("id"));
+
+//        return instances.getInstanceDetails(request.pathVariable("id"));
     }
 
     public Mono<ServerResponse> addInstance(ServerRequest request) {
