@@ -1,8 +1,8 @@
-package com.bntech.imperio.gateway.router;
+package com.bntech.imperio.gateway.io.router;
 
 
-import com.bntech.imperio.gateway.handler.ErrorHandler;
-import com.bntech.imperio.gateway.handler.GatewayHandler;
+import com.bntech.imperio.gateway.io.handler.ErrorHandler;
+import com.bntech.imperio.gateway.io.handler.GatewayHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;

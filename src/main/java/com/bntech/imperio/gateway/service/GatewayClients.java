@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.config;
+package com.bntech.imperio.gateway.service;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -16,7 +16,7 @@ import java.security.KeyStore;
 
 @Configuration
 @Slf4j
-public class HttpConfig {
+public class GatewayClients {
 
     private final String keyStoreLocation;
     private final String keyStorePassword;
@@ -24,11 +24,11 @@ public class HttpConfig {
     private final String trustStoreLocation;
     private final String trustStorePassword;
 
-    public HttpConfig(@Value("${infrastructure.tls.key-store}") String keyStoreLocation,
-                      @Value("${infrastructure.tls.key-store-password}") String keyStorePassword,
-                      @Value("${infrastructure.tls.key-store-type}") String keyStoreType,
-                      @Value("${infrastructure.tls.ca}") String trustStoreLocation,
-                      @Value("${infrastructure.tls.ca-password}") String trustStorePassword) {
+    public GatewayClients(@Value("${infrastructure.tls.key-store}") String keyStoreLocation,
+                          @Value("${infrastructure.tls.key-store-password}") String keyStorePassword,
+                          @Value("${infrastructure.tls.key-store-type}") String keyStoreType,
+                          @Value("${infrastructure.tls.ca}") String trustStoreLocation,
+                          @Value("${infrastructure.tls.ca-password}") String trustStorePassword) {
         this.keyStoreLocation = keyStoreLocation;
         this.keyStorePassword = keyStorePassword;
         this.keyStoreType = keyStoreType;

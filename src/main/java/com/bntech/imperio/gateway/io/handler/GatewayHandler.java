@@ -1,9 +1,10 @@
-package com.bntech.imperio.gateway.handler;
+package com.bntech.imperio.gateway.io.handler;
 
 
-import com.bntech.imperio.gateway.feign.FeignClient;
-import com.bntech.imperio.gateway.feign.FeignFallbackApi;
-import com.bntech.imperio.gateway.feign.InstanceApi;
+import com.bntech.imperio.gateway.object.InstanceCreateRequest;
+import com.bntech.imperio.gateway.service.FeignClient;
+import com.bntech.imperio.gateway.service.Requests;
+import com.bntech.imperio.gateway.service.InstanceApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,13 +19,14 @@ import reactor.core.publisher.Mono;
 @Component
 public class GatewayHandler {
 
+    //todo: Temporary replaced with http call due to https://github.com/PlaytikaOSS/feign-reactive/pull/539. Revert when done.
     private final InstanceApi instances;
-    private final FeignFallbackApi temporaryApi;
+    private final Requests http;
 
     @Autowired
-    public GatewayHandler(FeignClient client, FeignFallbackApi api) {
-        this.instances = client.getInstanceClient();
-        this.temporaryApi = api;
+    public GatewayHandler(FeignClient<InstanceApi> client, Requests http) {
+        this.instances = client.getClient();
+        this.http = http;
     }
 
     public Mono<ServerResponse> hello(ServerRequest request) {
@@ -32,15 +34,17 @@ public class GatewayHandler {
                 .body(BodyInserters.fromValue("Hello"));
     }
 
-    //todo: Temporary replaced with http call due to https://github.com/PlaytikaOSS/feign-reactive/pull/539. Revert when done.
     public Mono<ServerResponse> instanceDetails(ServerRequest request) {
         log.info("Received request to perform feign call");
-        return temporaryApi.getInstanceDetails(request.pathVariable("id"));
-
+        return http.getInstanceDetails(request.pathVariable("id"));
 //        return instances.getInstanceDetails(request.pathVariable("id"));
     }
 
     public Mono<ServerResponse> addInstance(ServerRequest request) {
-        return instances.getInstanceDetails(request.pathVariable("id"));
+        return request
+                .bodyToMono(InstanceCreateRequest.class)
+                .log("io.handler.GatewayHandler.addInstance")
+                .flatMap(http::createInstance);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.handler;
+package com.bntech.imperio.gateway.io.handler;
 
 
 import com.bntech.imperio.gateway.exception.NotFoundException;

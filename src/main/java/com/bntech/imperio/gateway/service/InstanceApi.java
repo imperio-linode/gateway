@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.feign;
+package com.bntech.imperio.gateway.service;
 
 import feign.Headers;
 import feign.Param;
@@ -15,7 +15,7 @@ import static com.bntech.imperio.gateway.config.Constants.api_ADD;
 public interface InstanceApi {
 
     @RequestLine("GET " + api_ID)
-    Mono<ServerResponse> getInstanceDetails(@Param("id") String id);
+    Mono<ServerResponse> getInstanceDetails(@Param("id") Mono<String> id);
 
     @RequestLine("POST " + api_ADD)
     Mono<ServerResponse> addInstance();
