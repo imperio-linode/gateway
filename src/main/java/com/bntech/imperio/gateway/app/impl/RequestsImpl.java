@@ -1,8 +1,8 @@
-package com.bntech.imperio.gateway.service.impl;
+package com.bntech.imperio.gateway.app.impl;
 
 import com.bntech.imperio.gateway.object.InstanceCreateRequest;
-import com.bntech.imperio.gateway.service.Requests;
-import com.bntech.imperio.gateway.service.Util;
+import com.bntech.imperio.gateway.app.Requests;
+import com.bntech.imperio.gateway.app.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.buffer.ByteBuf;
@@ -23,7 +23,7 @@ import reactor.netty.http.client.HttpClient;
 import java.nio.charset.StandardCharsets;
 
 import static com.bntech.imperio.gateway.config.Constants.*;
-import static com.bntech.imperio.gateway.service.Util.paramToWildcard;
+import static com.bntech.imperio.gateway.app.Util.paramToWildcard;
 
 
 @Component

@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.service;
+package com.bntech.imperio.gateway.app;
 
 import com.bntech.imperio.gateway.object.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;

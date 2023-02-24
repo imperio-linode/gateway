@@ -1,7 +1,7 @@
-package com.bntech.imperio.gateway.service.impl;
+package com.bntech.imperio.gateway.app.impl;
 
-import com.bntech.imperio.gateway.service.FeignClient;
-import com.bntech.imperio.gateway.service.InstanceApi;
+import com.bntech.imperio.gateway.app.FeignClient;
+import com.bntech.imperio.gateway.app.InstanceApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

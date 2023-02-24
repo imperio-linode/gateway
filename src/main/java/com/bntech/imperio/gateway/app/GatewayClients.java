@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.service;
+package com.bntech.imperio.gateway.app;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
