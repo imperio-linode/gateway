@@ -24,14 +24,13 @@ import java.nio.charset.StandardCharsets;
 
 import static com.bntech.imperio.gateway.config.Constants.*;
 import static com.bntech.imperio.gateway.app.Util.paramToWildcard;
-
+import static io.netty.util.CharsetUtil.US_ASCII;
 
 @Component
 @Slf4j
 public class RequestsImpl implements Requests {
 
     private final HttpClient instancesClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public RequestsImpl(HttpClient tlsClient, @Value("${infrastructure.instances.host}") String instancesHost) {
@@ -42,7 +41,7 @@ public class RequestsImpl implements Requests {
         return instancesClient.get()
                 .uri(api_ID.replace(paramToWildcard(param_ID), id))
                 .responseSingle((res, buf) -> Util
-                        .stringToServerResponse(buf.asString()))
+                        .stringServerResponse(buf.asString()))
                 .log("service.impl.RequestsImpl.getInstanceDetails");
     }
 
@@ -54,7 +53,7 @@ public class RequestsImpl implements Requests {
 
             try {
                 requestBody = Unpooled.wrappedBuffer(mapper.writeValueAsBytes(instance));
-                log.info("In flatmap2: " + requestBody.toString(StandardCharsets.US_ASCII));
+                log.info("In flatmap2: " + requestBody.toString(US_ASCII));
             } catch (JsonProcessingException e) {
                 return Mono.error(new ServerWebInputException("Error serializing request body."));
             }
@@ -62,7 +61,7 @@ public class RequestsImpl implements Requests {
             return instancesClient.post()
                     .uri(api_ADD)
                     .send(Mono.just(requestBody))
-                    .responseSingle((res, buf) -> Util.stringToServerResponse(buf.asString()))
+                    .responseSingle((res, buf) -> Util.stringServerResponse(buf.asString()))
                     .log("service.impl.RequestsImpl.createInstance")
                     .onErrorResume(ex -> {
                         if (ex instanceof ServerWebInputException) {

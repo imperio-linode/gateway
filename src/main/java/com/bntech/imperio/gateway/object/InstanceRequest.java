@@ -13,11 +13,13 @@ public class InstanceRequest<T> {
     private String type;
     private String region;
     private String label;
+    private String requestType;
 
-    public InstanceRequest(String type, String region, String label) {
+    public InstanceRequest(String type, String region, String label, String requestType) {
         this.type = type;
         this.region = region;
         this.label = label;
+        this.requestType = requestType;
     }
 
     public T requestDetails() {
