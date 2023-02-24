@@ -1,26 +1,37 @@
 package com.bntech.imperio.gateway.service.impl;
 
 import com.bntech.imperio.gateway.object.InstanceCreateRequest;
-import com.bntech.imperio.gateway.object.InstanceCreateResponse;
 import com.bntech.imperio.gateway.service.Requests;
 import com.bntech.imperio.gateway.service.Util;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
+
 import reactor.netty.http.client.HttpClient;
 
-import static com.bntech.imperio.gateway.config.Constants.api_ID;
-import static com.bntech.imperio.gateway.config.Constants.param_ID;
+import java.nio.charset.StandardCharsets;
+
+import static com.bntech.imperio.gateway.config.Constants.*;
 import static com.bntech.imperio.gateway.service.Util.paramToWildcard;
+
 
 @Component
 @Slf4j
 public class RequestsImpl implements Requests {
 
     private final HttpClient instancesClient;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public RequestsImpl(HttpClient tlsClient, @Value("${infrastructure.instances.host}") String instancesHost) {
@@ -35,14 +46,35 @@ public class RequestsImpl implements Requests {
                 .log("service.impl.RequestsImpl.getInstanceDetails");
     }
 
-    public Mono<ServerResponse> createInstance(InstanceCreateRequest instanceCreateRequest) {
-        log.info("Creating with: {}", instanceCreateRequest.getType());
+    public Mono<ServerResponse> createInstance(Mono<InstanceCreateRequest> request) {
+        return request.flatMap(instance -> {
+            ObjectMapper mapper = new ObjectMapper();
+            ByteBuf requestBody;
+            log.info("In flatmap: " + instance.getLabel());
 
+            try {
+                requestBody = Unpooled.wrappedBuffer(mapper.writeValueAsBytes(instance));
+                log.info("In flatmap2: " + requestBody.toString(StandardCharsets.US_ASCII));
+            } catch (JsonProcessingException e) {
+                return Mono.error(new ServerWebInputException("Error serializing request body."));
+            }
 
-        return Mono.just(new InstanceCreateResponse())
-                .map(InstanceCreateResponse::toString)
-                .log()
-                .transform(Util::stringToServerResponse);
+            return instancesClient.post()
+                    .uri(api_ADD)
+                    .send(Mono.just(requestBody))
+                    .responseSingle((res, buf) -> Util.stringToServerResponse(buf.asString()))
+                    .log("service.impl.RequestsImpl.createInstance")
+                    .onErrorResume(ex -> {
+                        if (ex instanceof ServerWebInputException) {
+                            ServerWebInputException swie = (ServerWebInputException) ex;
+                            return ServerResponse.badRequest().body(BodyInserters.fromValue(swie.getMessage()));
+                        } else {
+                            // Handle other exceptions as needed
+                            return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .body(BodyInserters.fromValue("An error occurred while processing the instance create request."));
+                        }
+                    });
+        });
     }
-
 }

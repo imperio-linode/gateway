@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface Requests {
 
     Mono<ServerResponse> getInstanceDetails(String id);
-    Mono<ServerResponse> createInstance(InstanceCreateRequest request);
+    Mono<ServerResponse> createInstance(Mono<InstanceCreateRequest> request);
 }

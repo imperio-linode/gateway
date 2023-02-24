@@ -44,7 +44,7 @@ public class GatewayHandler {
         return request
                 .bodyToMono(InstanceCreateRequest.class)
                 .log("io.handler.GatewayHandler.addInstance")
-                .flatMap(http::createInstance);
+                .transform(http::createInstance);
     }
 
 }
