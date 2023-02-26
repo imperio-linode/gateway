@@ -9,11 +9,11 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @EnableWebFlux
-public class GatewayApplication {
+public class ImperioGateway {
 
     public static void main(String[] args) {
         EventFormatProvider.getInstance().registerFormat(new JsonFormat());
-        SpringApplication.run(GatewayApplication.class, args);
+        SpringApplication.run(ImperioGateway.class, args);
     }
 
 }

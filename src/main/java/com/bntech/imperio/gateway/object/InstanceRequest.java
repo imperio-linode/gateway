@@ -21,8 +21,4 @@ public class InstanceRequest<T> {
         this.label = label;
         this.requestType = requestType;
     }
-
-    public T requestDetails() {
-        return (T) this;
-    }
 }

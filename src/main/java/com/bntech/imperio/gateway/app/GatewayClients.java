@@ -38,7 +38,8 @@ public class GatewayClients {
 
     @Bean
     public HttpClient tlsClient() {
-        return HttpClient.create().secure(spec -> {
+        return HttpClient.create()
+        .secure(spec -> {
             try {
                 KeyStore keyStore = KeyStore.getInstance(keyStoreType);
                 keyStore.load(new FileInputStream(ResourceUtils.getFile(keyStoreLocation)), keyStorePassword.toCharArray());
