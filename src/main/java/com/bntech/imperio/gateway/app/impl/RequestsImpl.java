@@ -20,8 +20,6 @@ import reactor.core.publisher.Mono;
 
 import reactor.netty.http.client.HttpClient;
 
-import java.nio.charset.StandardCharsets;
-
 import static com.bntech.imperio.gateway.config.Constants.*;
 import static com.bntech.imperio.gateway.app.Util.paramToWildcard;
 import static io.netty.util.CharsetUtil.US_ASCII;
@@ -49,11 +47,10 @@ public class RequestsImpl implements Requests {
         return request.flatMap(instance -> {
             ObjectMapper mapper = new ObjectMapper();
             ByteBuf requestBody;
-            log.info("In flatmap: " + instance.getLabel());
 
             try {
                 requestBody = Unpooled.wrappedBuffer(mapper.writeValueAsBytes(instance));
-                log.info("In flatmap2: " + requestBody.toString(US_ASCII));
+                log.info("createInstance: " + requestBody.toString(US_ASCII));
             } catch (JsonProcessingException e) {
                 return Mono.error(new ServerWebInputException("Error serializing request body."));
             }
@@ -62,7 +59,7 @@ public class RequestsImpl implements Requests {
                     .uri(api_ADD)
                     .send(Mono.just(requestBody))
                     .responseSingle((res, buf) -> Util.stringServerResponse(buf.asString()))
-                    .log("service.impl.RequestsImpl.createInstance")
+                    .log("createInstance.post-request.log")
                     .onErrorResume(ex -> {
                         if (ex instanceof ServerWebInputException) {
                             ServerWebInputException swie = (ServerWebInputException) ex;

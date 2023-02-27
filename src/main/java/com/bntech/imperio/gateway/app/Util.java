@@ -16,7 +16,6 @@ public class Util {
 
     public static Mono<ServerResponse> stringServerResponse(Mono<String> instanceDetails) {
         return instanceDetails
-                .log("io.handler.GatewayHandler.stringToServerResponse")
                 .flatMap(userResponse -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(Mono.just(userResponse), String.class));
     }
 
