@@ -35,7 +35,6 @@ public class GatewayHandler {
     }
 
     public Mono<ServerResponse> instanceDetailsRequest(ServerRequest request) {
-        log.info("Received request to perform feign call");
         return http.getInstanceDetails(request.pathVariable("id"));
 //        return instances.getInstanceDetails(request.pathVariable("id"));
     }
@@ -43,7 +42,6 @@ public class GatewayHandler {
     public Mono<ServerResponse> instanceCreateRequest(ServerRequest request) {
         return request
                 .bodyToMono(InstanceCreateRequest.class)
-                .log("io.handler.GatewayHandler.addInstance")
                 .transform(http::createInstance);
     }
 
