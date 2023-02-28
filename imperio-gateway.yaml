@@ -23,6 +23,9 @@ spec:
           name: imperio-gateway
           ports:
             - containerPort: 80
+          env:
+            - name: tls_pass
+              value: imperio
 ---
 apiVersion: v1
 kind: Service
