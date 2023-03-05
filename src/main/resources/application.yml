@@ -7,7 +7,7 @@ infrastructure:
     key-store: src/main/resources/keystore.p12
     key-store-password: imperio
     ca: src/main/resources/ca.p12
-    ca-password: ${tls_pass}
+    ca-password: imperio
   instances:
     host: https://instances.imperio
     service: imperio-instances

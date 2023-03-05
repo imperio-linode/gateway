@@ -25,7 +25,10 @@ spec:
             - containerPort: 80
           env:
             - name: tls_pass
-              value: imperio
+              valueFrom:
+                secretKeyRef:
+                  name: imperio-store
+                  key: spring
 ---
 apiVersion: v1
 kind: Service
