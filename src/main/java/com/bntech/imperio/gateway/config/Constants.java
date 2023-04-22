@@ -15,7 +15,7 @@ public final class Constants {
     public static final String api_HELLO = "/hello";
     public static final String api_ID = "/{id}";
     public static final String api_ADD = "/add";
-    public static final String api_INSTANCES = "/instance";
+    public static final String api_INSTANCE = "/instance";
 
     public static final String param_ID = "id";
 

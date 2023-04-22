@@ -18,7 +18,7 @@ public class GatewayRouter {
     @Bean
     public static RouterFunction<?> doRoute(final GatewayHandler gatewayHandler, final ErrorHandler errorHandler) {
         return
-                nest(path(api_INSTANCES),
+                nest(path(api_INSTANCE),
                         route(GET(api_ID),
                                 gatewayHandler::instanceDetails
                         ).andRoute(POST(api_ADD),
