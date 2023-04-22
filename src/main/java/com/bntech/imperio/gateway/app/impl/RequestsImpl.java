@@ -36,6 +36,8 @@ public class RequestsImpl implements Requests {
     }
 
     public Mono<ServerResponse> getInstanceDetails(String id) {
+        log.info("Getting instance details for id   : {}", id);
+        log.info("Getting instance details with url : {}", api_ID.replace(paramToWildcard(param_ID), id));
         return instancesClient.get()
                 .uri(api_ID.replace(toPathVariable(param_ID), id))
                 .responseSingle((res, buf) -> Util
