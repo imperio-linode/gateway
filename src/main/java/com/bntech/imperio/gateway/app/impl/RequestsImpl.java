@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 import static com.bntech.imperio.gateway.config.Constants.*;
-import static com.bntech.imperio.gateway.app.Util.paramToWildcard;
+import static com.bntech.imperio.gateway.app.Util.toPathVariable;
 import static io.netty.util.CharsetUtil.US_ASCII;
 
 @Component
@@ -37,10 +37,10 @@ public class RequestsImpl implements Requests {
 
     public Mono<ServerResponse> getInstanceDetails(String id) {
         return instancesClient.get()
-                .uri(api_ID.replace(paramToWildcard(param_ID), id))
+                .uri(api_ID.replace(toPathVariable(param_ID), id))
                 .responseSingle((res, buf) -> Util
                         .stringServerResponse(buf.asString()))
-                .log("service.impl.RequestsImpl.getInstanceDetails");
+                .log("getInstanceDetails");
     }
 
     public Mono<ServerResponse> createInstance(Mono<InstanceCreateRequest> request) {
@@ -59,7 +59,6 @@ public class RequestsImpl implements Requests {
                     .uri(api_ADD)
                     .send(Mono.just(requestBody))
                     .responseSingle((res, buf) -> Util.stringServerResponse(buf.asString()))
-                    .log("createInstance.post-request.log")
                     .onErrorResume(ex -> {
                         if (ex instanceof ServerWebInputException) {
                             ServerWebInputException swie = (ServerWebInputException) ex;

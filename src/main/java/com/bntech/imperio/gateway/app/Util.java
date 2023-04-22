@@ -10,8 +10,8 @@ import reactor.core.publisher.Mono;
 public class Util {
     static ObjectMapper mapper;
 
-    public static String paramToWildcard(String param) {
-        return "{" + param + "}";
+    public static String toPathVariable(String variable) {
+        return "{" + variable + "}";
     }
 
     public static Mono<ServerResponse> stringServerResponse(Mono<String> instanceDetails) {

@@ -20,9 +20,9 @@ public class GatewayRouter {
         return
                 nest(path(api_INSTANCE),
                         route(GET(api_ID),
-                                gatewayHandler::instanceDetailsRequest
+                                gatewayHandler::instanceDetails
                         ).andRoute(POST(api_ADD),
-                                gatewayHandler::instanceCreateRequest)
+                                gatewayHandler::instanceCreate)
                 ).andOther(StaticRouter.doRoute()
                 ).andOther(route(GET(api_HELLO), gatewayHandler::hello)
                 );

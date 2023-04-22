@@ -34,12 +34,12 @@ public class GatewayHandler {
                 .body(BodyInserters.fromValue("Hello"));
     }
 
-    public Mono<ServerResponse> instanceDetailsRequest(ServerRequest request) {
+    public Mono<ServerResponse> instanceDetails(ServerRequest request) {
         return http.getInstanceDetails(request.pathVariable("id"));
 //        return instances.getInstanceDetails(request.pathVariable("id"));
     }
 
-    public Mono<ServerResponse> instanceCreateRequest(ServerRequest request) {
+    public Mono<ServerResponse> instanceCreate(ServerRequest request) {
         return request
                 .bodyToMono(InstanceCreateRequest.class)
                 .transform(http::createInstance);
