@@ -58,7 +58,7 @@ public class RequestsImpl implements Requests {
             }
 
             return instancesClient.post()
-                    .uri(api_ADD)
+                    .uri(api_INSTANCE + api_ADD)
                     .send(Mono.just(requestBody))
                     .responseSingle((res, buf) -> Util.stringServerResponse(buf.asString()))
                     .onErrorResume(ex -> {
