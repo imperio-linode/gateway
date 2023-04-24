@@ -16,7 +16,10 @@ public class Util {
 
     public static Mono<ServerResponse> stringServerResponse(Mono<String> instanceDetails) {
         return instanceDetails
-                .flatMap(userResponse -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(Mono.just(userResponse), String.class));
+                .flatMap(userResponse -> ServerResponse
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Mono.just(userResponse), String.class));
     }
 
     public static <T> Mono<String> toJsonString(Mono<T> obj) {
