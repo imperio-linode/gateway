@@ -19,6 +19,7 @@ import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
 
 import reactor.netty.http.client.HttpClient;
+import reactor.util.function.Tuples;
 
 import static com.bntech.imperio.gateway.config.Constants.*;
 import static com.bntech.imperio.gateway.app.Util.toPathVariable;
@@ -48,31 +49,38 @@ public class RequestsImpl implements Requests {
 
     public Mono<ServerResponse> createInstance(Mono<InstanceCreateRequest> request) {
         return request.flatMap(instance -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ByteBuf requestBody;
+                    ObjectMapper mapper = new ObjectMapper();
+                    ByteBuf requestBody;
 
-            try {
-                requestBody = Unpooled.wrappedBuffer(mapper.writeValueAsBytes(instance));
-                log.info("createInstance: " + requestBody.toString(US_ASCII));
-            } catch (JsonProcessingException e) {
-                return Mono.error(new ServerWebInputException("Error serializing request body."));
-            }
+                    try {
+                        requestBody = Unpooled.wrappedBuffer(mapper.writeValueAsBytes(instance));
+                        log.info("createInstance: " + requestBody.toString(US_ASCII));
+                    } catch (JsonProcessingException e) {
+                        return Mono.error(new ServerWebInputException("Error serializing request body."));
+                    }
 
-            return instancesClient.post()
-                    .uri(api_INSTANCE + api_ADD)
-                    .send(Mono.just(requestBody))
-                    .responseSingle((res, buf) -> Util.stringServerResponse(buf.asString()))
-                    .onErrorResume(ex -> {
-                        if (ex instanceof ServerWebInputException) {
-                            ServerWebInputException swie = (ServerWebInputException) ex;
-                            return ServerResponse.badRequest().body(BodyInserters.fromValue(swie.getMessage()));
-                        } else {
-                            // Handle other exceptions as needed
-                            return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .body(BodyInserters.fromValue("An error occurred while processing the instance create request."));
-                        }
-                    });
-        });
+                    return instancesClient.post()
+                            .uri(api_INSTANCE + api_ADD)
+                            .send(Mono.just(requestBody))
+                            .responseSingle((res, buf) -> buf
+                                    .map(buff -> {
+                                        log.info("instanceService.inside req [ {} ][ {} ][ {} ][ {} ]",
+                                                res.status(), res.fullPath(), res.uri(), res.method());
+
+                                        return Tuples.of(res.status(), buff.toString(US_ASCII));
+                                    }))
+                            .flatMap(Util::stringServerResponse);
+                })
+                .onErrorResume(ex -> {
+                    if (ex instanceof ServerWebInputException) {
+                        ServerWebInputException swie = (ServerWebInputException) ex;
+                        return ServerResponse.badRequest().body(BodyInserters.fromValue(swie.getMessage()));
+                    } else {
+
+                        return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(BodyInserters.fromValue("An error occurred while processing the instance create request."));
+                    }
+                });
     }
 }
