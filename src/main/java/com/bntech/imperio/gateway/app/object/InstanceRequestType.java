@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.object;
+package com.bntech.imperio.gateway.app.object;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

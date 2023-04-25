@@ -1,6 +1,6 @@
 package com.bntech.imperio.gateway.app;
 
-import com.bntech.imperio.gateway.object.ErrorResponse;
+import com.bntech.imperio.gateway.app.object.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.handler.codec.http.HttpResponseStatus;

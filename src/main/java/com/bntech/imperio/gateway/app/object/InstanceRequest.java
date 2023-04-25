@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.object;
+package com.bntech.imperio.gateway.app.object;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

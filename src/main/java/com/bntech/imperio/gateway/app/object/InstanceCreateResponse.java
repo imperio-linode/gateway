@@ -1,4 +1,4 @@
-package com.bntech.imperio.gateway.object;
+package com.bntech.imperio.gateway.app.object;
 
 public class InstanceCreateResponse {
 

@@ -1,7 +1,7 @@
 package com.bntech.imperio.gateway.io.handler;
 
 
-import com.bntech.imperio.gateway.object.InstanceCreateRequest;
+import com.bntech.imperio.gateway.app.object.InstanceCreateRequest;
 import com.bntech.imperio.gateway.app.FeignClient;
 import com.bntech.imperio.gateway.app.Requests;
 import com.bntech.imperio.gateway.app.InstanceApi;

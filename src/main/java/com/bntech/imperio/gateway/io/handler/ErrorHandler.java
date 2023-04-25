@@ -3,7 +3,7 @@ package com.bntech.imperio.gateway.io.handler;
 
 import com.bntech.imperio.gateway.exception.NotFoundException;
 import com.bntech.imperio.gateway.exception.ThrowableTransformatorImpl;
-import com.bntech.imperio.gateway.object.ErrorResponse;
+import com.bntech.imperio.gateway.app.object.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;

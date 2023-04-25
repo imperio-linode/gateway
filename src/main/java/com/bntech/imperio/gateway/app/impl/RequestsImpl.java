@@ -1,6 +1,6 @@
 package com.bntech.imperio.gateway.app.impl;
 
-import com.bntech.imperio.gateway.object.InstanceCreateRequest;
+import com.bntech.imperio.gateway.app.object.InstanceCreateRequest;
 import com.bntech.imperio.gateway.app.Requests;
 import com.bntech.imperio.gateway.app.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -60,7 +60,7 @@ public class RequestsImpl implements Requests {
                     }
 
                     return instancesClient.post()
-                            .uri(api_INSTANCE + api_ADD)
+                            .uri(api_INSTANCE)
                             .send(Mono.just(requestBody))
                             .responseSingle((res, buf) -> buf
                                     .map(buff -> {

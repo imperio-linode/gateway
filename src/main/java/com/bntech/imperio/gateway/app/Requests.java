@@ -1,6 +1,6 @@
 package com.bntech.imperio.gateway.app;
 
-import com.bntech.imperio.gateway.object.InstanceCreateRequest;
+import com.bntech.imperio.gateway.app.object.InstanceCreateRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
